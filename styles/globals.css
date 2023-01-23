@@ -1,10 +1,10 @@
-*{
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .icon {
+    @apply hidden xl:inline-flex p-2 w-8 h-8 bg-gray-200 rounded-full  text-gray-700 cursor-pointer
+    hover:bg-gray-300
+  }
+}

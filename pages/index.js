@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Header from '@/components/Header'
 
 
 
@@ -11,7 +12,7 @@ export default function Home() {
       <Head>
         <title>Facebook</title>
       </Head>
-     <h1>Facebook Build</h1>
+   <Header />
     </>
   )
 }
