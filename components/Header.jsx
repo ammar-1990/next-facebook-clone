@@ -15,14 +15,14 @@ const Header = () => {
         <input type="text" placeholder="Search Facebook" className="bg-transparent outline-none ml-2 placeholder-gray-500"/>
     </div>
 </section>
-<section className="flex flex-grow justify-evenly  sm:justify-center space-x-1 sm:space-x-5 md:space-x-8  ">
+<section className="flex flex-grow justify-evenly  sm:justify-center space-x-0 sm:space-x-5 md:space-x-8  ">
     <HeaderIcon active Icon={HomeIcon} />
     <HeaderIcon Icon={FlagIcon} />
     <HeaderIcon Icon={PlayIcon} />
     <HeaderIcon Icon={ShoppingCartIcon} />
     <HeaderIcon Icon={UserGroupIcon} />
 </section>
-<section className="flex pr-3 items-center space-x-2">
+<section className="flex px-3 items-center space-x-2">
 <p className="text-gray-400 font-medium  whitespace-nowrap text-xs sm:text-sm md:text-base">Ammar Haidar</p>
 <ViewGridIcon  className="icon" />
 <ChatIcon  className="icon"/>

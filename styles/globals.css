@@ -7,4 +7,33 @@
     @apply hidden xl:inline-flex p-2 w-8 h-8 bg-gray-200 rounded-full  text-gray-700 cursor-pointer
     hover:bg-gray-300
   }
+
+  .input {
+    @apply p-2 border-0 outline-none border-b border-blue-600 w-full
+  }
+
+  .fully {
+    border-radius: 50%;
+  }
+
+  .my-img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+  }
+  .my-img-sm {
+    width: 125px;
+    height: 125px;
+    object-fit: cover;
+  }
+
+  input:invalid[focused='true'] {
+    border-bottom: red 1px solid;
+  }
+
+  input:invalid[focused='true']  + p{
+display: block;
+color: red;
+font-size: 0.8rem;
+  }
 }
