@@ -18,7 +18,7 @@ const Header = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
   console.log(userInfo.image);
   return (
-    <header className="flex items-center justify-between p-1 shadow-md">
+    <header className="fixed w-screen bg-white top-0 flex items-center justify-between p-1 shadow-md z-10">
       <section className="flex items-center">
         <Image
           src={
@@ -38,7 +38,7 @@ const Header = () => {
         </div>
       </section>
       <section className="flex flex-grow justify-evenly  sm:justify-center space-x-0 sm:space-x-5 md:space-x-8  ">
-        <HeaderIcon active Icon={HomeIcon} />
+        <HeaderIcon theActive={true} Icon={HomeIcon} />
         <HeaderIcon Icon={FlagIcon} />
         <HeaderIcon Icon={PlayIcon} />
         <HeaderIcon Icon={ShoppingCartIcon} />
@@ -48,8 +48,8 @@ const Header = () => {
         <Image
           className="rounded-full cursor-pointer"
           src={userInfo?.image}
-          width={45}
-          height={45}
+          width={37}
+          height={37}
           onClick={() => {
             dispatch(LOGOUT());
             dispatch(RESETUSER());

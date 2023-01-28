@@ -5,6 +5,7 @@ import Header from '@/components/Header'
 import { useSelector } from 'react-redux'
 import { useRouter } from 'next/router';
 import {useEffect} from 'react'
+import Aside from '@/components/Aside';
 
 
 
@@ -38,6 +39,11 @@ export default function Home() {
         <title>Facebook</title>
       </Head>
    <Header />
+
+   <main className='h-screen bg-gray-100 pt-16 '>
+<Aside />
+
+   </main>
     </>
   )
 }
