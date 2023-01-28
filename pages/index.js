@@ -14,12 +14,19 @@ import {useEffect} from 'react'
 
 
 
+
 export default function Home() {
   const user =useSelector(state=>state.user.user)
+  const userInfo =useSelector(state=>state.user.userInfo)
+  
   const route=useRouter()
+
+ 
+ 
  useEffect(()=>{
   !user && route.push('/login')
- },[])
+ },[user])
+
 
  if (!user) 
  return <p>unauthenticated</p>

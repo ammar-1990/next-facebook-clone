@@ -1,132 +1,193 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UploadIcon } from "@heroicons/react/outline";
 import Link from "next/link";
-import {  createUserWithEmailAndPassword } from "firebase/auth";
-import {auth,db} from '../firebase'
-import { doc, serverTimestamp, setDoc } from "firebase/firestore"; 
-import { useSelector,useDispatch } from "react-redux";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { storage, auth, db } from "../firebase";
+import { doc, serverTimestamp, setDoc, getDoc } from "firebase/firestore";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import FormInput from "@/components/FormInput";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
-
-
-import { LOGIN } from "@/features/user/userSlice";
+import { LOGIN, SETUSER } from "@/features/user/userSlice";
 
 const Signup = () => {
-    const route =useRouter()
-    const user =useSelector(state=>state.user.user)
-    const [done,setDone]=useState(false)
+  const route = useRouter();
+ 
+  const [per, setPer] = useState(null);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [input, setInput] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    image: "",
+  });
 
-    const dispatch=useDispatch()
-    const [loading,setLoading]=useState(false)
-  const [input, setInput] = useState({username:'',
-email:'',
-password:'',
-confirmPassword:''
-});
-  
   const [fireErr, setFireErr] = useState("");
 
   const [date, setDate] = useState("");
   const [file, setFile] = useState(null);
   const formData = [
     {
-        id:'1',
-        name:'username',
-        type:'text',
-        placeholder:'Enter your name',
-        false: 'Enter a valid name between 2-20 letters with no special characters',
-        className:'input ',
-        minLength:'2',
-        maxLength:'20',
-        required:true,
-        value:input.username,
-        pattern:'^[a-zA-Z]{2,15}$'
-       
+      id: "1",
+      name: "username",
+      type: "text",
+      placeholder: "Enter your name",
+      false:
+        "Enter a valid name between 2-20 letters with no special characters",
+      className: "input ",
+      minLength: "2",
+      maxLength: "20",
+      required: true,
+      value: input.username,
+      pattern: "^[a-zA-Z]{2,15}$",
     },
     {
-        id:'2',
-        name:'email',
-        type:'email',
-        placeholder:'Enter your email',
-        false: 'Enter a valid email',
-        className:'input',
-        required:true,
-         value:input.email
-      
+      id: "2",
+      name: "email",
+      type: "email",
+      placeholder: "Enter your email",
+      false: "Enter a valid email",
+      className: "input",
+      required: true,
+      value: input.email,
+    },
+    {
+      id: "3",
+      name: "password",
+      type: "password",
+      placeholder: "Enter your password",
+      false: "Enter a valid password between 6 and 20 character",
+      className: "input",
+      minLength: "6",
+      maxLength: "20",
+      required: true,
+      value: input.password,
+    },
+    {
+      id: "4",
+      name: "confirmPassword",
+      type: "password",
+      placeholder: "Confirm  your password",
+      false: "Your passwords don,t match",
+      className: "input",
+      pattern: input.password,
+      required: true,
+      value: input.confirmPassword,
+    },
+  ];
 
+  useEffect(() => {
+    const uploadImage = () => {
+      const name = new Date().getTime() + file.name;
+      const storageRef = ref(storage, name);
 
-    },
-    {
-        id:'3',
-        name:'password',
-        type:'password',
-        placeholder:'Enter your password',
-        false: 'Enter a valid password between 6 and 20 character',
-        className:'input',
-        minLength:'6',
-        maxLength:'20',
-        required:true,
-         value:input.password
-        
-    },
-    {
-        id:'4',
-        name:'confirmPassword',
-        type:'password',
-        placeholder:'Confirm  your password',
-        false: 'Your passwords don,t match',
-        className:'input',
-      pattern:input.password,
-        required:true,
-         value:input.confirmPassword
-        
-    },
-   
- 
-]
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      // Register three observers:
+      // 1. 'state_changed' observer, called any time the state changes
+      // 2. Error observer, called on failure
+      // 3. Completion observer, called on successful completion
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          setPer(progress)
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused",per);
+              break;
+            case "running":
+              console.log("Upload is running",per);
+              break;
+
+            default:
+              break;
+          }
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setInput((input) => ({ ...input, image: downloadURL }));
+          });
+        }
+      );
+    };
+
+    file && uploadImage();
+    console.log(input);
+  }, [file]);
 
   const handleSignup = async (e) => {
     e.preventDefault();
 
- 
-  try{
-    setLoading(true)
-    const res =await createUserWithEmailAndPassword(auth, input.email, input.password)
-    await setDoc(doc(db, "users", res.user.uid), {
+    try {
+      setLoading(true);
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        input.email,
+        input.password
+      );
+      await setDoc(doc(db, "users", res.user.uid), {
         name: input.username,
-        email:input.email,
-        password:input.password,
-        birthday:date || '',
-        timestamp:serverTimestamp()
+        email: input.email,
+        password: input.password,
+        birthday: date || "",
+        image:
+          input.image ||
+          "https://images.nightcafe.studio//assets/profile.png?tr=w-1600,c-at_max",
+        timestamp: serverTimestamp(),
       });
-      
-      formData.map((el=>{
-       
-       
-        
-        setInput(input=>({...input,[el.name]:''}))}))
-     
-      dispatch(LOGIN({id:res.user.uid,
-        email:res.user.email}))
-        console.log(user)
-        route.push('/')
-        setLoading(false)
-     
-  }
-  catch(err)
-{  
-    setLoading(false)
-    setFireErr(err.message)
-}
-  
+
+      dispatch(LOGIN({ id: res.user.uid, email: res.user.email }));
+      const docRef = doc(db, "users", res.user.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap) {
+        dispatch(
+          SETUSER({
+            id: docSnap.id,
+            name: docSnap.data().name,
+            email: docSnap.data().email,
+            password: docSnap.data().password,
+            image: docSnap?.data()?.image,
+            birthday: docSnap.data().birthday,
+          })
+        );
+        console.log("Document data:", docSnap.data());
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+
+      route.push("/");
+      setTimeout(() => {
+        formData.map((el) => {
+          setInput((input) => ({ ...input, [el.name]: "" }));
+        });
+        setLoading(false);
+      }, 5000);
+    } catch (err) {
+      setLoading(false);
+      setFireErr(err.message);
+    }
   };
 
-  const onChange=(e,el)=> {
+  const onChange = (e, el) => {
     setInput({ ...input, [el?.name]: e.target?.value });
-            
-    setFireErr(null)
-  }
+
+    setFireErr(null);
+  };
 
   return (
     <div className="h-screen flex flex-col sm:flex-row justify-start sm:justify-center items-center gap-3 sm:gap-28 p-4">
@@ -142,13 +203,13 @@ confirmPassword:''
         />
       </div>
 
-      <form   onSubmit={handleSignup} className="flex flex-col gap-5 w-3/4 sm:w-1/3">
+      <form
+        onSubmit={handleSignup}
+        className="flex flex-col gap-5 w-3/4 sm:w-1/3"
+      >
         {formData.map((el) => (
-         
-            <FormInput el={el} onChange={onChange} />
-          
+          <FormInput el={el} onChange={onChange} key={el.id} />
         ))}
-       
 
         <input
           type="date"
@@ -166,15 +227,10 @@ confirmPassword:''
           name="image"
           onChange={(e) => setFile(e.target.files[0])}
         />
-        {fireErr && (
-          <p className="text-red-500 text-xs">Error:{fireErr}</p>
-        )}
+        {fireErr && <p className="text-red-500 text-xs">Error:{fireErr}</p>}
 
-        <button
-          className="text-white  p-4 cursor=pointer-border-0 online-none bg-blue-500"
-        
-        >
-        {loading? 'Loading...' :  'Sign up'}
+        <button disabled={per !=null && per<100} className="text-white  p-4 cursor=pointer-border-0 online-none bg-blue-500 ">
+          {loading ? "Loading..." : "Sign up"}
         </button>
         <p className="text-gray-500">
           Back to{" "}

@@ -1,11 +1,13 @@
 import Image from "next/image"
 import { useState } from "react"
 import {  signInWithEmailAndPassword } from "firebase/auth";
-import {auth} from '../firebase'
+import {auth,db} from '../firebase'
 import { useSelector,useDispatch } from "react-redux";
-import { LOGIN } from "@/features/user/userSlice";
+import { LOGIN,SETUSER } from "@/features/user/userSlice";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { doc, getDoc } from "firebase/firestore";
+
 
 
 const Login = () => {
@@ -15,6 +17,7 @@ const [err,setErr]=useState('')
 const dispatch =useDispatch()
 const route = useRouter()
 const [loading,setLoading]=useState(false)
+const userInfo=useSelector(state=>state.user.userInfo)
 
 
 const handleLogin = (e)=>{
@@ -26,17 +29,36 @@ else {
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in 
-    console.log(userCredential.user);
+
     dispatch(LOGIN({
         id:userCredential.user.uid,
         email:userCredential.user.email
-    }))
-   
-    route.push('/')
-    setLoading(false)
 
+        
+    }))
+
+    
+return userCredential.user
       // ...
-    })
+    }).then(async(user)=>{
+      const docRef = doc(db, "users",user.uid);
+      const docSnap = await getDoc(docRef);
+      
+      if (docSnap) {
+        dispatch(SETUSER({id:docSnap.id,
+        name:docSnap.data().name,
+        email:docSnap.data().email,
+        password:docSnap.data().password,
+        image:docSnap?.data()?.image || '',
+        birthday:docSnap.data().birthday,
+      }))
+        return docSnap
+      }
+    }).then((docSnap)=>{
+    route.push('/')
+ setTimeout(()=>{setLoading(false)},5000) 
+}
+)
     .catch((error) => {
      
       setErr(error.message)
@@ -51,7 +73,7 @@ else {
   return (
     <div className="flex flex-col items-center h-screen p-6">
 
-<Image src={"https://1000logos.net/wp-content/uploads/2021/04/Facebook-logo.png"} width={400} height={400}  />
+<Image src={"https://1000logos.net/wp-content/uploads/2021/04/Facebook-logo.png"} width={400} height={400} alt='alt' />
 <form onSubmit={handleLogin} className="flex flex-col mt-10   w-full  sm:w-1/2 lg:w-1/3 gap-5">
 <input type="email" required placeholder="E-MAIL" className="input" value={email} onChange={(e)=>{setEmail(e.target.value);setErr('')}}/>
 <input type="password"  placeholder="PASSWORD" className="input" value={password} onChange={(e)=>{setPassword(e.target.value);setErr('')}}/>
