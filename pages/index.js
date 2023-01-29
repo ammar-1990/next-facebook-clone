@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux'
 import { useRouter } from 'next/router';
 import {useEffect} from 'react'
 import Aside from '@/components/Aside';
+import Content from '@/components/Content';
+import RightBar from '@/components/RightBar';
 
 
 
@@ -40,8 +42,10 @@ export default function Home() {
       </Head>
    <Header />
 
-   <main className='h-screen bg-gray-100 pt-16 '>
+   <main className='h-screen bg-gray-100 pt-16 flex '>
 <Aside />
+<Content />
+<RightBar />
 
    </main>
     </>

@@ -40,4 +40,10 @@ font-size: 0.8rem;
   button:disabled {
     @apply bg-blue-200 cursor-not-allowed
   }
+  .outlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.209);
+  }
 }
