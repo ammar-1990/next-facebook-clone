@@ -35,7 +35,7 @@ const Stories = () => {
 
 
   return (
-    <div className="flex pt-2  w-full gap-2 justify-center">
+    <div className="flex pt-2  w-full gap-1 justify-around lg:justify-between">
         {data.map((el)=><div key={el.name} className=' relative overflow-hidden hover:scale-110 duration-300 cursor-pointer  rounded-full md:rounded-lg'>
             <div className="outlay"></div>
            <img src={el.image} className='cursor-pointer w-14 h-14 md:w-28 md:h-40  object-cover  md:cursor-auto ' alt="" />
