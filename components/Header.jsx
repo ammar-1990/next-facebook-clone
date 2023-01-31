@@ -37,7 +37,7 @@ const Header = () => {
           />
         </div>
       </section>
-      <section className="flex flex-grow justify-evenly  sm:justify-center space-x-0 sm:space-x-5 md:space-x-8  ">
+      <section className="flex flex-grow justify-evenly  sm:justify-center space-x-0 sm:space-x-5 md:space-x-6  ">
         <HeaderIcon theActive={true} Icon={HomeIcon} />
         <HeaderIcon Icon={FlagIcon} />
         <HeaderIcon Icon={PlayIcon} />
@@ -45,7 +45,12 @@ const Header = () => {
         <HeaderIcon Icon={UserGroupIcon} />
       </section>
       <section className="flex px-3 items-center space-x-2">
-        <Image
+       
+       
+        <ViewGridIcon className="icon" />
+        <ChatIcon className="icon" />
+        <BellIcon className="icon" />
+         <Image
           className="rounded-full cursor-pointer"
           src={userInfo?.image}
           width={37}
@@ -57,13 +62,7 @@ const Header = () => {
 
           unoptimized
         />
-        <p className="text-gray-400 font-medium  whitespace-nowrap text-xs sm:text-sm md:text-base">
-          {userInfo?.name}
-        </p>
-        <ViewGridIcon className="icon" />
-        <ChatIcon className="icon" />
-        <BellIcon className="icon" />
-        <ChevronDownIcon className="icon" />
+       
       </section>
     </header>
   );

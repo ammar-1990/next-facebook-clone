@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState={
     posts:[],
-    comments:[]
+    
 }
 
 const dataSlice=createSlice({

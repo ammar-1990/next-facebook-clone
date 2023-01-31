@@ -4,8 +4,10 @@
 
 @layer components {
   .icon {
-    @apply hidden xl:inline-flex p-2 w-8 h-8 bg-gray-200 rounded-full  text-gray-700 cursor-pointer
-    hover:bg-gray-300
+    @apply hidden xl:inline-flex p-2 bg-gray-200 rounded-full  text-gray-700 cursor-pointer
+    hover:bg-gray-300 w-10 h-10
+
+  
   }
 
   .input {
@@ -56,7 +58,7 @@ display: none;
   }
   .tools {
     cursor: pointer;
-    padding: 10px;
+    padding: 5px;
     flex: 1;
   display: flex;
   justify-content: center;
@@ -64,10 +66,30 @@ display: none;
     align-items: center;
     gap: 5px;
     font-size: 0.9rem;
+    font-weight: bold;
     
   }
   .father {
     border-top: 1px solid;
+   
   }
+
+  .layout {
+    background-color: rgba(0, 0, 0, 0.808);
+    z-index: 20;
+  }
+  .theInput {
+    border-top: 1px solid;
+  }
+.sc {
+  height: 450px;
+}
+ .sc::-webkit-scrollbar{
+  display: none;
+ }
+
+ .light {
+  border:1px solid ;
+ }
  
 }

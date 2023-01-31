@@ -1,5 +1,6 @@
 
-
+import { useState } from "react"
+import Story from "./Story"
 const Stories = () => {
 
     const data =[
@@ -35,14 +36,13 @@ const Stories = () => {
 
 
   return (
-    <div className="flex pt-2  w-full gap-1 justify-around lg:justify-between">
-        {data.map((el)=><div key={el.name} className=' relative overflow-hidden hover:scale-110 duration-300 cursor-pointer  rounded-full md:rounded-lg'>
-            <div className="outlay"></div>
-           <img src={el.image} className='cursor-pointer w-14 h-14 md:w-28 md:h-40  object-cover  md:cursor-auto ' alt="" />
-           <img className="hidden absolute top-2 left-2 md:block w-9 h-9 rounded-full object-cover border-2 border-white cursor-pointer" src={el.profile} alt="" />
-           <p className="absolute hidden md:block text-white bottom-2 left-2 capitalize cursor-pointer">{el.name}</p>
-        </div>)}
+    <div className="p-3 w-full h-max sc bg-white shadow-md rounded-lg overflow-x-scroll">
+
+<div className="flex gap-1 lg:justify-start   w-max">
+        {data.map((el)=><Story key={el.name} el={el} />)}
     </div>
+    </div>
+   
   )
 }
 

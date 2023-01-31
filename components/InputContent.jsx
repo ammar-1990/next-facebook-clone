@@ -101,7 +101,7 @@ else {
 
 const fileRef=useRef()
   return (
-    <div className="p-4  pb-0 bg-white rounded-lg self-center w-full  shadow-md">
+    <div className="p-4  mt-5 pb-0 bg-white rounded-lg self-center w-full  shadow-md">
         <form  onSubmit={handleSubmit} className="flex gap-1 w-full items-center">
             <img className="rounded-full w-10 h-10 cursor-pointer" src={userInfo.image} alt="" />
             <input className=" rounded-full bg-gray-100 text-gray-700 py-2 px-4 flex-grow outline-none" type="text" placeholder={`What,s in your mind ${userInfo.name} ?`} value={text}  onChange={(e)=>setText(e.target.value)}/>

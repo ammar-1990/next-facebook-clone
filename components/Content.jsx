@@ -24,7 +24,7 @@ const posts = useSelector(state=>state.data.posts)
     list.push({id:doc.id,...doc.data()})
    })
    dispatch(GETPOSTS(list))
-   console.log(list)
+   
   },(error)=>{
     console.log(error)
   });
@@ -34,10 +34,10 @@ const posts = useSelector(state=>state.data.posts)
   },[])
 
   return (
-    <div className="theContent py-2 px-2 mx-auto  w-full   md:w-7/12 lg:w-6/12 flex flex-col gap-5 h-full overflow-y-scroll ">
+    <div className="theContent py-2 px-2 mx-auto  w-full sm:w-8/12  md:w-7/12 lg:w-5/12   h-full overflow-y-scroll ">
         <Stories />
         <InputContent />
-        {posts?.map((el,)=><Post key={el.id} el={el}/>)}
+        {[...posts]?.sort((a,b)=>(new Date(b.timestamp)- new Date(a.timestamp))).map((el)=><Post key={el.id} el={el}/>)}
     </div>
   )
 }
