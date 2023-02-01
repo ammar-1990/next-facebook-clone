@@ -14,7 +14,7 @@ const Post = ({el}) => {
  
 const handleSubmit = async(e)=> {
   e.preventDefault()
- console.log(el.postId)
+ console.log(el.id)
   if(titleRef.current.value)
   {
     try{  const docRef = await addDoc(collection(db, "comments"), {
@@ -42,9 +42,11 @@ useEffect(()=>{
   const unsubscribe = onSnapshot(q, (querySnapshot) => {
     const list = [];
     querySnapshot.forEach((doc) => {
-        list.push(doc.data());
+        list.push({commentId:doc.id,...doc.data()});
+        
     });
   setComments(list)
+
   });
 return ()=>unsubscribe()
 },[])
@@ -94,7 +96,7 @@ return ()=>unsubscribe()
     <img className="w-10 h-10 rounded-full" src={userInfo?.image} alt="" />
     <input ref={titleRef}  placeholder="Write a comment..."  type="text" className="flex-grow rounded-full px-4 py-2 outline-none bg-gray-200" />
   </form>
-  {comments?.map((comment)=><div>{comment.title}</div>)}
+  {comments?.map((comment)=><div>{comment.commentTitle}</div>)}
 </div>
 
 </div>
