@@ -9,9 +9,12 @@ import {
   query,
   where,
   onSnapshot,
+  doc,
+  deleteDoc 
 } from "firebase/firestore";
 import { db } from "@/firebase";
 import Comments from "./Comments";
+import LikesList from "./LikesList";
 
 const Post = ({ el }) => {
   const [open, setOpen] = useState(false);
@@ -21,6 +24,7 @@ const Post = ({ el }) => {
   const [comments, setComments] = useState([]);
   const [openComment, setOpenComment] = useState(false);
   const [likes, setLikes] = useState([]);
+  const [openLikes,setOpenLikes]=useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,6 +61,11 @@ const Post = ({ el }) => {
       console.log(err);
     }
   };
+
+  const handleDislike=async()=>{
+    const like=likes.find((like)=>like.postId === el.id && like.userId === user.id).likeId
+    await deleteDoc(doc(db, "likes", like));
+  }
 
   useEffect(() => {
     const q = query(collection(db, "comments"), where("postId", "==", el.id));
@@ -116,12 +125,12 @@ const Post = ({ el }) => {
       <div className="pt-2 px-4 pb-0">
         <div className="flex items-center justify-between py-1">
           {likes.length > 0 && (
-            <div className="flex gap-2 items-center cursor-pointer group ">
+            <div onClick={()=>setOpenLikes(true)} className="flex gap-2 items-center cursor-pointer group ">
               <div className="w-4 h-4 rounded-full bg-blue-600 flex items-center justify-center ">
                 <Two className="text-white w-3 " />
               </div>
               <span className="text-gray-500 group-hover:underline ">
-                {likes.length} {likes.length === 1 ? "Like" : "Likes"}
+                {likes.length} {likes.length === 1 ?"Like" :"Likes"}
               </span>
             </div>
           )}
@@ -147,15 +156,15 @@ const Post = ({ el }) => {
           {likes.find(
             (like) => like.postId === el.id && like.userId === user.id
           ) ? (
-            <div className="tools text-xs lg:text-md hover:bg-gray-200 text-blue-600 group ">
-              <Two className="w-4 md:w-6 group-active:scale-90" /><span className="group-active:scale-90">Like</span> 
+            <div onClick={handleDislike} className="tools text-xs lg:text-md hover:bg-gray-200 text-blue-600 group ">
+              <Two className="w-4 md:w-6 group-active:scale-90" /><span >Like</span> 
             </div>
           ) : (
             <div
               onClick={handleLike}
               className="tools text-xs lg:text-md hover:bg-gray-200 group"
             >
-              <ThumbUpIcon className="w-4 md:w-6 group-active:scale-90" /><span className="group-active:scale-90">Like</span>
+              <ThumbUpIcon className="w-4 md:w-6 group-active:scale-90" /><span >Like</span>
             </div>
           )}
 
@@ -173,9 +182,18 @@ const Post = ({ el }) => {
         </div>
         {openComment && (
           <div>
+           
+            <div className="theComments pb-2 pt-3 border-gray-300 theInput flex flex-col gap-3">
+              {" "}
+              {[...comments]
+                ?.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
+                .map((comment) => (
+                  <Comments comment={comment} key={comment.commentId} />
+                ))}
+            </div>
             <form
               onSubmit={handleSubmit}
-              className="w-full flex gap-2 items-center py-7 theInput border-gray-300"
+              className="w-full flex gap-2 items-center pt-3 pb-3 "
             >
               <img
                 className="w-9 h-9 cursor-pointer rounded-full"
@@ -186,17 +204,9 @@ const Post = ({ el }) => {
                 ref={titleRef}
                 placeholder="Write a comment..."
                 type="text"
-                className="flex-grow rounded-full px-4 py-1 outline-none bg-gray-200"
+                className="flex-grow rounded-full px-4 py-1 outline-none bg-gray-100"
               />
             </form>
-            <div className="theComments p-2 flex flex-col gap-3">
-              {" "}
-              {[...comments]
-                ?.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
-                .map((comment) => (
-                  <Comments comment={comment} key={comment.commentId} />
-                ))}
-            </div>
           </div>
         )}
       </div>
@@ -225,6 +235,8 @@ const Post = ({ el }) => {
           </svg>
         </div>
       </div>
+
+    {  openLikes &&<LikesList likes={likes} setOpenLikes={setOpenLikes}/>}
     </div>
   );
 };

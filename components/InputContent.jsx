@@ -111,7 +111,7 @@ const fileRef=useRef()
               <p className="text-red-500 text-xs cursor-pointer" onClick={()=>{setImage(null);setImageURL('')}}>Remove</p>
               </div>}
         </form>
-<div className="w-full flex py-2 mt-3 border-t-2 border-gray-300 justify-between">
+<div className="w-full flex py-2 mt-3 theInput border-gray-300 justify-between">
    
         <Emoji Icon={VideoCameraIcon} title='Live Video' color='text-red-500' />
        

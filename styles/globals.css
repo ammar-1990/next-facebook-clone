@@ -92,6 +92,9 @@ display: none;
  .light {
   border:1px solid ;
  }
+ .likes {
+  background-color: rgba(178, 174, 174, 0.575);
+ }
 
  
  
