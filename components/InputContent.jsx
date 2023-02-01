@@ -69,7 +69,7 @@ useEffect(() => {
 
 const handleSubmit = async(e)=> {
 e.preventDefault()
-if(!text&&!image) return
+if(text.trim()===''&&!image) return
 else {
 
   try{ 
