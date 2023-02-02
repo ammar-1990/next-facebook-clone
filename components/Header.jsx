@@ -16,7 +16,7 @@ import { LOGOUT, RESETUSER } from "@/features/user/userSlice";
 const Header = () => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user.userInfo);
-  console.log(userInfo.image);
+  console.log(userInfo)
   return (
     <header className="fixed w-screen bg-white top-0 flex items-center justify-between p-1 shadow-md z-10">
       <section className="flex items-center">

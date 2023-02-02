@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { useState } from "react"
+import { useState ,useEffect} from "react"
 import {  signInWithEmailAndPassword } from "firebase/auth";
 import {auth,db} from '../firebase'
 import { useSelector,useDispatch } from "react-redux";
@@ -18,7 +18,9 @@ const dispatch =useDispatch()
 const route = useRouter()
 const [loading,setLoading]=useState(false)
 const userInfo=useSelector(state=>state.user.userInfo)
-
+useEffect(()=>{
+  return ()=>setLoading(false)
+},[])
 
 const handleLogin = (e)=>{
 e.preventDefault()
@@ -56,7 +58,7 @@ return userCredential.user
       }
     }).then((docSnap)=>{
     route.push('/')
- setTimeout(()=>{setLoading(false)},5000) 
+ 
 }
 )
     .catch((error) => {
