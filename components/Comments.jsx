@@ -1,6 +1,7 @@
 import { ThumbUpIcon } from "@heroicons/react/solid";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   collection,
   addDoc,
@@ -58,14 +59,14 @@ const Comments = ({ comment }) => {
 
   return (
     <div className="flex gap-2 w-full">
-      <img
+   <Link href={`/${comment.userEmail}`}>  <img
         className="w-9 h-9 rounded-full cursor-pointer"
         src={comment.userImage}
         alt=""
-      />
+      /></Link> 
       <div className="flex flex-col ">
         <div className="p-2 rounded-2xl flex flex-col self-start bg-gray-100 relative ">
-          <span className="font-bold capitalize ">{comment.username}</span>
+          <Link  href={`/${comment.userEmail}`}><span className="font-bold capitalize ">{comment.username}</span></Link>
           <span className="">{comment.commentTitle}</span>
           {likes.length > 0 && (
             <div onClick={()=>setOpenLikes(true)}

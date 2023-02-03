@@ -2,6 +2,7 @@ import { useSelector } from "react-redux"
 import { CameraIcon } from "@heroicons/react/solid"
 import { VideoCameraIcon } from "@heroicons/react/solid"
 import {EmojiHappyIcon} from "@heroicons/react/outline"
+import Link from "next/link"
 import Emoji from "./Emoji"
 import { useState ,useRef,useEffect} from "react"
 import { collection, addDoc, serverTimestamp } from "firebase/firestore"; 
@@ -101,9 +102,9 @@ else {
 
 const fileRef=useRef()
   return (
-    <div style={{marginTop:noMargen? '0' :'20px'}} className="p-4 pb-0 bg-white rounded-lg self-center w-full  shadow-md">
+    <div style={{marginTop:noMargen? '0' :'20px',}} className={`p-4 pb-0 ${noMargen && 'mb-3'} bg-white rounded-lg self-center w-full  shadow-md`}>
         <form  onSubmit={handleSubmit} className="flex gap-1 w-full items-center">
-            <img className="rounded-full w-10 h-10 cursor-pointer" src={userInfo.image} alt="" />
+          <Link href={`/${userInfo.email}`}> <img className="rounded-full w-10 h-10 cursor-pointer" src={userInfo.image} alt="" /></Link> 
             <input className=" rounded-full bg-gray-100 text-gray-700 py-2 px-4 flex-grow outline-none" type="text" placeholder={`What,s in your mind ${userInfo.name} ?`} value={text}  onChange={(e)=>setText(e.target.value)}/>
             <button className="hidden"></button>
             {image && <div className="   duration-300  flex flex-col items-center">

@@ -105,6 +105,30 @@ display: none;
   width:100%;
  
 }
+
+.theImage {
+  left: 50%;
+  transform: translateX(-50%);
+  top:-175px
+}
+
+.theRight {
+  width: 100%;
+}
+.theLeft {
+  width: 100%;
+}
  
- 
+@media (min-width: 768px) {
+  .theImage{
+    top:-30px ;
+    left:150px;
+  }
+  .theRight{
+    width: 57%;
+  }
+  .theLeft {
+    width: 42%;
+  }
+}
 }

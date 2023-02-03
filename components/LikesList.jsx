@@ -1,5 +1,5 @@
 
-
+import Link from "next/link"
 const LikesList = ({setOpenLikes,likes}) => {
   return (
     <div className="w-full h-full fixed top-0 left-0 flex justify-center  likes z-10">
@@ -8,10 +8,10 @@ const LikesList = ({setOpenLikes,likes}) => {
             <h2 className="text-gray-500 mt-1 ml-2">Likes</h2>
           <div className="flex flex-col gap-2 mt-2"> {
                 likes.map((like)=>
-                <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer">
+             <Link onClick={()=>setOpenLikes(false)} href={`/${like.userEmail}`}>  <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer">
 <img src={like.userImage} className='w-10 h-10 rounded-full ' alt="" />
 <span className="capitalize text-gray-500 ">{like.username}</span>
-                </div>)
+                </div></Link> )
             }
             </div> 
             <div

@@ -3,6 +3,7 @@ import { ChatAltIcon, ThumbUpIcon, ShareIcon } from "@heroicons/react/outline";
 import { ThumbUpIcon as Two } from "@heroicons/react/solid";
 import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
+import Link from "next/link";
 import {
   collection,
   addDoc,
@@ -16,7 +17,7 @@ import { db } from "@/firebase";
 import Comments from "./Comments";
 import LikesList from "./LikesList";
 
-const Post = ({ el }) => {
+const Post = ({ el,profile }) => {
   const [open, setOpen] = useState(false);
   const userInfo = useSelector((state) => state.user.userInfo);
   const user = useSelector((state) => state.user.user);
@@ -92,16 +93,17 @@ const Post = ({ el }) => {
   }, []);
 
   return (
-    <div className="my-5 w-full bg-white  rounded-lg rounded-b-2xl shadow-md">
+    <div className={`${!profile ?'my-5' : 'mb-5' }  w-full bg-white  rounded-lg rounded-b-2xl shadow-md`}>
       <div className="flex items-center p-3 gap-2">
-        <img
+        <Link href={`/${el.userEmail}`}>   <img
           className="w-10 h-10 rounded-full object-cover cursor-pointer"
           src={el.userImage}
           alt=""
-        />
+        /></Link>
+     
 
         <div>
-          <p className="font-bold capitalize cursor-pointer">{el.username}</p>
+          <Link href={`/${el.userEmail}`}><p className="font-bold capitalize cursor-pointer">{el.username}</p></Link>
           <p className="date text-gray-500">{el.timestamp}</p>
         </div>
       </div>
