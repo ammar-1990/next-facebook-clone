@@ -8,11 +8,11 @@ const AsideRow = ({title,Icon,profile,email}) => {
   const route=useRouter()
   return (
     <div onClick={()=>{profile? route.push(`/${email}`) : null}} className="p-3 hover:bg-gray-300 rounded-md flex gap-3 items-center justify-center sm:justify-start w-full cursor-pointer">
-        {profile && <Image src={profile} width={37} height={37} unoptimized className='rounded-full' alt=""/>}
+        {profile && <img src={profile} className='w-10 h-10 rounded-full object-cover'/>}
 
         {Icon && <Icon className='w-6 text-blue-500' />}
 
-        <p className="hidden sm:block text-md capitalize font-bold">{title}</p>
+        <p className="hidden sm:block text-md capitalize font-bold">{title.name || title }  {title.last}</p>
     </div>
   )
 }

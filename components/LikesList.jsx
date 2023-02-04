@@ -2,9 +2,9 @@
 import Link from "next/link"
 const LikesList = ({setOpenLikes,likes}) => {
   return (
-    <div className="w-full h-full fixed top-0 left-0 flex justify-center  likes z-10">
+    <div className="w-full h-full fixed top-0 left-0 flex justify-center  likes z-10 ">
 
-        <div className="p-3 w-72 rounded-lg shadow-md bg-white relative mt-48 self-start">
+        <div className="p-3 w-72 rounded-lg  bg-white relative mt-48 self-start shadow-md">
             <h2 className="text-gray-500 mt-1 ml-2">Likes</h2>
           <div className="flex flex-col gap-2 mt-2"> {
                 likes.map((like)=>

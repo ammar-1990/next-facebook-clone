@@ -51,17 +51,16 @@ const Header = () => {
         <ViewGridIcon className="icon" />
         <ChatIcon className="icon" />
         <BellIcon className="icon" />
-         <Image
-          className="rounded-full cursor-pointer"
+         <img
+          className="rounded-full w-10 h-10 cursor-pointer"
           src={userInfo?.image}
-          width={37}
-          height={37}
+        
           onClick={() => {
             dispatch(LOGOUT());
             dispatch(RESETUSER());
           }}
 
-          unoptimized
+          
         />
        
       </section>

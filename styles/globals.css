@@ -11,7 +11,7 @@
   }
 
   .input {
-    @apply p-2 border-0 outline-none border-b border-blue-600 w-full
+    @apply p-1 border-0 outline-none border-b border-blue-600 w-full
   }
 
   .fully {

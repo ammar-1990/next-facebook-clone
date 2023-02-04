@@ -103,7 +103,7 @@ const Post = ({ el,profile }) => {
      
 
         <div>
-          <Link href={`/${el.userEmail}`}><p className="font-bold capitalize cursor-pointer">{el.username}</p></Link>
+          <Link href={`/${el.userEmail}`}><p className="font-bold capitalize cursor-pointer">{el.username} {el.lastname}</p></Link>
           <p className="date text-gray-500">{el.timestamp}</p>
         </div>
       </div>

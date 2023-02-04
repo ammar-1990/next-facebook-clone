@@ -80,6 +80,7 @@ else {
    
     userId:user.id,
     username:userInfo.name,
+    lastname:userInfo.lastname,
     userEmail:user.email,
     userImage:userInfo.image,
     postTitle:text,

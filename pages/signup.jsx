@@ -19,6 +19,7 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState({
     username: "",
+    lastname:'',
     email: "",
     password: "",
     confirmPassword: "",
@@ -26,7 +27,11 @@ const Signup = () => {
   });
 
   const [fireErr, setFireErr] = useState("");
-
+  
+const [school,setSchool]=useState('')
+const [univer,setUniver]=useState('')
+const[status,setStatus]=useState('')
+const [live,setLive]=useState('')
   const [date, setDate] = useState("");
   const [file, setFile] = useState(null);
   const formData = [
@@ -46,6 +51,20 @@ const Signup = () => {
     },
     {
       id: "2",
+      name: "lastname",
+      type: "text",
+      placeholder: "Enter your lastname",
+      false:
+        "Enter a valid name between 2-20 letters with no special characters",
+      className: "input ",
+      minLength: "2",
+      maxLength: "20",
+      required: true,
+      value: input.lastname,
+      pattern: "^[a-zA-Z]{2,15}$",
+    },
+    {
+      id: "3",
       name: "email",
       type: "email",
       placeholder: "Enter your email",
@@ -55,7 +74,7 @@ const Signup = () => {
       value: input.email,
     },
     {
-      id: "3",
+      id: "4",
       name: "password",
       type: "password",
       placeholder: "Enter your password",
@@ -67,7 +86,7 @@ const Signup = () => {
       value: input.password,
     },
     {
-      id: "4",
+      id: "5",
       name: "confirmPassword",
       type: "password",
       placeholder: "Confirm  your password",
@@ -135,9 +154,14 @@ const Signup = () => {
       );
       await setDoc(doc(db, "users", res.user.uid), {
         name: input.username,
+        lastname:input.lastname,
         email: input.email,
         password: input.password,
         birthday: date || "",
+        status:status ||'',
+        school :school ||'',
+        university:univer || '',
+        country:live||'',
         image:
           input.image ||
           "https://images.nightcafe.studio//assets/profile.png?tr=w-1600,c-at_max",
@@ -153,10 +177,17 @@ const Signup = () => {
           SETUSER({
             id: docSnap.id,
             name: docSnap.data().name,
+            lastname:docSnap.data().lastname,
             email: docSnap.data().email,
             password: docSnap.data().password,
             image: docSnap?.data()?.image,
             birthday: docSnap.data().birthday,
+            status:docSnap.data().status,
+            school:docSnap.data().school,
+            university:docSnap.data().university,
+            country:docSnap.data().country
+
+
           })
         );
         console.log("Document data:", docSnap.data());
@@ -170,6 +201,10 @@ const Signup = () => {
         formData.map((el) => {
           setInput((input) => ({ ...input, [el.name]: "" }));
         });
+        setLive('')
+        setSchool('')
+        setUniver('')
+        
         setLoading(false);
       }, 5000);
     } catch (err) {
@@ -200,12 +235,23 @@ const Signup = () => {
 
       <form
         onSubmit={handleSignup}
-        className="flex flex-col gap-5 w-3/4 sm:w-1/3"
+        className="flex flex-col gap-2 w-3/4 sm:w-1/3"
       >
         {formData.map((el) => (
           <FormInput el={el} onChange={onChange} key={el.id} />
         ))}
-
+          <input type="text" className="input " placeholder="Where do you live ?" onChange={(e)=>setLive(e.target.value)} value={live}/>
+          <input type="text" className="input " placeholder="your school name.." onChange={(e)=>setSchool(e.target.value)} value={school}/>
+          <input type="text" className="input " placeholder="your university name .." onChange={(e)=>setUniver(e.target.value)} value={univer}/>
+        <div className='flex justify-between'> 
+          <span className="text-gray-500">Martial Status :</span>
+          <select className="outline-none cursor-pointer text-gray-500" value={status} onChange={(e)=>setStatus(e.target.value)}>
+            <option value="single">Single</option>
+            <option value="married">Married</option>
+          </select>
+          </div>
+       
+        
         <input
           type="date"
           className="text-gray-500 outline-none cursor-pointer"

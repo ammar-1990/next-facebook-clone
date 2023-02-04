@@ -59,14 +59,14 @@ const Comments = ({ comment }) => {
 
   return (
     <div className="flex gap-2 w-full">
-   <Link href={`/${comment.userEmail}`}>  <img
+   <Link href={`/${comment.userEmail}`}>  <div className="w-10"><img
         className="w-9 h-9 rounded-full cursor-pointer"
         src={comment.userImage}
         alt=""
-      /></Link> 
+      /></div></Link> 
       <div className="flex flex-col ">
         <div className="p-2 rounded-2xl flex flex-col self-start bg-gray-100 relative ">
-          <Link  href={`/${comment.userEmail}`}><span className="font-bold capitalize ">{comment.username}</span></Link>
+          <Link  href={`/${comment.userEmail}`}><span className="font-bold capitalize ">{comment.username} {comment.lastname}</span></Link>
           <span className="">{comment.commentTitle}</span>
           {likes.length > 0 && (
             <div onClick={()=>setOpenLikes(true)}
