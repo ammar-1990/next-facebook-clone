@@ -27,6 +27,7 @@ const Post = ({ el,profile }) => {
   const [likes, setLikes] = useState([]);
   const [openLikes,setOpenLikes]=useState(false)
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -239,6 +240,8 @@ const Post = ({ el,profile }) => {
       </div>
 
     {  openLikes &&<LikesList likes={likes} setOpenLikes={setOpenLikes}/>}
+
+    
     </div>
   );
 };
