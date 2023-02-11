@@ -1,6 +1,6 @@
 import { ThumbUpIcon } from "@heroicons/react/solid";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   collection,
@@ -10,15 +10,20 @@ import {
   onSnapshot,
   doc,
   deleteDoc,
+  updateDoc
 } from "firebase/firestore";
 import { db } from "@/firebase";
 import LikesList from "./LikesList";
+import Control from "./Control";
 
 const Comments = ({ comment }) => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const user = useSelector((state) => state.user.user);
   const [likes, setLikes] = useState([]);
   const [openLikes,setOpenLikes] = useState(false)
+  const [edit,setEdit]=useState(false)
+  const [editI,setEditI]=useState(comment.commentTitle)
+  const editRef=useRef()
 
   const handleLike = async () => {
     try {
@@ -57,6 +62,23 @@ const Comments = ({ comment }) => {
     return () => unsubscribe();
   }, []);
 
+
+  const handleEditSubmit=async(e)=>{
+    e.preventDefault()
+if(editI)
+{setEdit(false)
+  setEditI(comment.commentTitle)
+  const washingtonRef = doc(db, "comments", comment.commentId);
+  
+  // Set the "capital" field of the city 'DC'
+  await updateDoc(washingtonRef, {
+    commentTitle: editI,
+    
+  });
+  }
+
+
+  }
   return (
     <div className="flex gap-2 w-full">
    <Link href={`/${comment.userEmail}`}>  <div className="w-10"><img
@@ -67,7 +89,7 @@ const Comments = ({ comment }) => {
       <div className="flex flex-col ">
         <div className="p-2 rounded-2xl flex flex-col self-start bg-gray-100 relative ">
           <Link  href={`/${comment.userEmail}`}><span className="font-bold capitalize ">{comment.username} {comment.lastname}</span></Link>
-          <span className="">{comment.commentTitle}</span>
+         { edit? <form onSubmit={handleEditSubmit} className="m-1 mt-0 "><input type="text" className="  outline-none bg-gray-100 rounded-md w-full" value={editI} onChange={(e)=>setEditI(e.target.value)} ref={editRef}/></form> :<span className="">{comment.commentTitle}</span>}
           {likes.length > 0 && (
             <div onClick={()=>setOpenLikes(true)}
               style={{ top: "-10px", right: "-10px" }}
@@ -82,6 +104,7 @@ const Comments = ({ comment }) => {
               </span>}
             </div>
           )}
+       
         </div>
         <div className="flex gap-4 items-center px-1">
           {likes.find(
@@ -110,6 +133,7 @@ const Comments = ({ comment }) => {
         </div>
       </div>
       {openLikes && <LikesList likes={likes} setOpenLikes={setOpenLikes} />}
+      {userInfo.email===comment.userEmail&&<Control setEdit={setEdit} setEditI={setEditI} editRef={editRef} el={comment} type='comments' />}
     </div>
   );
 };

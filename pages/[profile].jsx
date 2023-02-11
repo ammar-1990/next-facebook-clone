@@ -406,7 +406,7 @@ else
 </div>
 <div className=" flex-grow theRight ">
   {userInfo.email===getUser().email &&<InputContent noMargen={true} />}
-  {[...posts]?.sort((a,b)=>(new Date(b.timestamp)- new Date(a.timestamp))).map((el)=><Post profile={true} key={el.id} el={el}/>)}
+  {[...posts]?.sort((a,b)=>(new Date(b.timestamp)- new Date(a.timestamp))).map((el)=><Post  profile={true} key={el.id} el={el}/>)}
 
 </div>
 

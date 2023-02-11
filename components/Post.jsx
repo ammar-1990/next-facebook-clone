@@ -11,11 +11,14 @@ import {
   where,
   onSnapshot,
   doc,
-  deleteDoc 
+  deleteDoc ,
+  updateDoc
 } from "firebase/firestore";
 import { db } from "@/firebase";
 import Comments from "./Comments";
 import LikesList from "./LikesList";
+import Control from "./Control";
+
 
 const Post = ({ el,profile }) => {
   const [open, setOpen] = useState(false);
@@ -26,6 +29,9 @@ const Post = ({ el,profile }) => {
   const [openComment, setOpenComment] = useState(false);
   const [likes, setLikes] = useState([]);
   const [openLikes,setOpenLikes]=useState(false)
+  const [edit,setEdit]=useState(false)
+  const [editI,setEditI]=useState(el.postTitle)
+  const editRef=useRef()
 
 
   const handleSubmit = async (e) => {
@@ -93,8 +99,27 @@ const Post = ({ el,profile }) => {
     return () => unsubscribe();
   }, []);
 
+
+  const handleEditSubmit =async(e)=> {
+e.preventDefault()
+if(editI)
+{setEdit(false)
+  setEditI(el.postTitle)
+  const washingtonRef = doc(db, "posts", el.id);
+  
+  // Set the "capital" field of the city 'DC'
+  await updateDoc(washingtonRef, {
+    postTitle: editI,
+    timestamp:new Date().toLocaleString()
+  });
+  }
+
+
+  }
+
   return (
     <div className={`${!profile ?'my-5' : 'mb-5' }  w-full bg-white  rounded-lg rounded-b-2xl shadow-md`}>
+
       <div className="flex items-center p-3 gap-2">
         <Link href={`/${el.userEmail}`}>   <img
           className="w-10 h-10 rounded-full object-cover cursor-pointer"
@@ -107,8 +132,9 @@ const Post = ({ el,profile }) => {
           <Link href={`/${el.userEmail}`}><p className="font-bold capitalize cursor-pointer">{el.username} {el.lastname}</p></Link>
           <p className="date text-gray-500">{el.timestamp}</p>
         </div>
+        {el.userEmail===userInfo.email&& <Control setEdit={setEdit} type='posts' el={el} editRef={editRef} setEditI={setEditI}/>}
       </div>
-      <p className=" p-3">{el.postTitle}</p>
+      {edit? <form onSubmit={handleEditSubmit} className="m-3 mt-0 "><input type="text" className=" p-1 outline-none bg-gray-100 rounded-md w-full" value={editI} onChange={(e)=>setEditI(e.target.value)} ref={editRef}/></form> :<p className="p-1 m-3 mt-0">{el.postTitle}</p>}
 
       {el.imageURL && (
         <div
