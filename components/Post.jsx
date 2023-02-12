@@ -48,6 +48,19 @@ const Post = ({ el,profile }) => {
           commentTitle: titleRef.current.value,
           timestamp: new Date().toLocaleString(),
         });
+
+        const docRefnot = await addDoc(collection(db, "notifications"), {
+          postId: el.id,
+          postTitle:el.postTitle,
+          userId: user.id,
+          userImage: userInfo.image,
+           username: userInfo.name,
+           userEmail: userInfo.email,
+               timestamp: new Date().toLocaleString(),
+               type:'comment',
+               seen:false,
+               dest:el.userEmail,
+});
       } catch (err) {
         console.log(err);
       }
@@ -65,6 +78,20 @@ const Post = ({ el,profile }) => {
         userEmail: userInfo.email,
         userImage: userInfo.image,
       });
+
+      const docRefnot = await addDoc(collection(db, "notifications"), {
+        postId: el.id,
+        userId: user.id,
+        postTitle:el.postTitle,
+        userImage: userInfo.image,
+         username: userInfo.name,
+         userEmail: userInfo.email,
+             timestamp: new Date().toLocaleString(),
+             type:'like',
+             seen:false,
+             dest:el.userEmail,
+});
+      
     } catch (err) {
       console.log(err);
     }

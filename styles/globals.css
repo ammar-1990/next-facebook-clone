@@ -131,4 +131,21 @@ display: none;
     width: 42%;
   }
 }
+
+
+.notes {
+  width: 350px;
+  max-height: 500px;
+  overflow-y: scroll;
+  top:105%;
+}
+
+.notes::-webkit-scrollbar{
+  width: 7px;
+}
+
+.notes::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 50px;
+}
 }

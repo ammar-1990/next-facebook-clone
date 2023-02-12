@@ -13,11 +13,40 @@ import {
 } from "@heroicons/react/solid";
 import { useSelector, useDispatch } from "react-redux";
 import { LOGOUT, RESETUSER } from "@/features/user/userSlice";
+import Notifications from "./Notifications";
+import { useEffect, useState } from "react";
+import { GETNOTES } from "@/features/data/dataSlice";
+import { doc, onSnapshot,collection } from "firebase/firestore";
+import { db } from "@/firebase";
 
 const Header = () => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user.userInfo);
- 
+  const [open,setOpen]=useState(false)
+  const notes =useSelector(state=>state.data.notes)
+
+useEffect(()=>{
+  const unsub = onSnapshot(collection(db, "notifications"), (snapShot) => {
+      let list =[];
+      snapShot.docs.forEach(doc=>{
+       list.push({id:doc.id,...doc.data()})
+      })
+     dispatch(GETNOTES(list.filter((el)=>el.dest===userInfo.email)))
+      
+     },(error)=>{
+       console.log(error)
+     });
+     return ()=> {
+       unsub();
+     };
+
+},[])
+
+
+ const handleClick= async ()=> {
+  setOpen(prev=>!prev)
+  
+ }
   return (
     <header className="fixed w-screen bg-white top-0 flex items-center justify-between p-1 shadow-md z-10">
       <section className="flex items-center"><Link href={'/'}>  <Image
@@ -50,7 +79,9 @@ const Header = () => {
        
         <ViewGridIcon className="icon" />
         <ChatIcon className="icon" />
-        <BellIcon className="icon" />
+        <div className="relative"><BellIcon className="icon" onClick={handleClick} />
+    {notes.filter((el)=>el.seen===false).length > 0 && <span style={{top:'-3px',right:'-3px'}} className="absolute  h-5 w-5 rounded-full bg-red-500 text-white flex items-center justify-center text-xs">{notes.filter((el)=>el.seen===false).length}</span>}
+        </div>
          <img
           className="rounded-full w-10 h-10 cursor-pointer"
           src={userInfo?.image}
@@ -64,6 +95,8 @@ const Header = () => {
         />
        
       </section>
+
+    {open&&  <Notifications />}
     </header>
   );
 };
