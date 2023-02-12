@@ -31,7 +31,7 @@ useEffect(()=>{
       snapShot.docs.forEach(doc=>{
        list.push({id:doc.id,...doc.data()})
       })
-     dispatch(GETNOTES(list.filter((el)=>el.dest===userInfo.email)))
+     dispatch(GETNOTES(list))
       
      },(error)=>{
        console.log(error)
@@ -46,6 +46,7 @@ useEffect(()=>{
  const handleClick= async ()=> {
   setOpen(prev=>!prev)
   
+
  }
   return (
     <header className="fixed w-screen bg-white top-0 flex items-center justify-between p-1 shadow-md z-10">
@@ -80,7 +81,7 @@ useEffect(()=>{
         <ViewGridIcon className="icon" />
         <ChatIcon className="icon" />
         <div className="relative"><BellIcon className="icon" onClick={handleClick} />
-    {notes.filter((el)=>el.seen===false).length > 0 && <span style={{top:'-3px',right:'-3px'}} className="absolute  h-5 w-5 rounded-full bg-red-500 text-white flex items-center justify-center text-xs">{notes.filter((el)=>el.seen===false).length}</span>}
+    {notes.filter((el)=>el.dest===userInfo.email).filter((el)=>el.seen===false).length > 0 && <span style={{top:'-3px',right:'-3px'}} className="absolute  h-5 w-5 rounded-full bg-red-500 text-white flex items-center justify-center text-xs">{notes.filter((el)=>el.dest===userInfo.email).filter((el)=>el.seen===false).length}</span>}
         </div>
          <img
           className="rounded-full w-10 h-10 cursor-pointer"

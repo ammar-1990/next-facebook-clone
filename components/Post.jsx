@@ -23,6 +23,7 @@ import Control from "./Control";
 const Post = ({ el,profile }) => {
   const [open, setOpen] = useState(false);
   const userInfo = useSelector((state) => state.user.userInfo);
+  const notes =useSelector(state=>state.data.notes)
   const user = useSelector((state) => state.user.user);
   const titleRef = useRef();
   const [comments, setComments] = useState([]);
@@ -100,6 +101,8 @@ const Post = ({ el,profile }) => {
   const handleDislike=async()=>{
     const like=likes.find((like)=>like.postId === el.id && like.userId === user.id).likeId
     await deleteDoc(doc(db, "likes", like));
+    const note=notes.find((note)=>note.dest===el.userEmail && note.type==='like' && note.postId===el.id && note.userId===user.id).id
+    await deleteDoc(doc(db, "notifications", note));
   }
 
   useEffect(() => {

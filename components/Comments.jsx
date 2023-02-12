@@ -24,7 +24,7 @@ const Comments = ({ comment }) => {
   const [edit,setEdit]=useState(false)
   const [editI,setEditI]=useState(comment.commentTitle)
   const editRef=useRef()
-
+const notes = useSelector(state=>state.data.notes)
   const handleLike = async () => {
     try {
       const docRef = await addDoc(collection(db, "likes"), {
@@ -35,6 +35,23 @@ const Comments = ({ comment }) => {
         userEmail: userInfo.email,
         userImage: userInfo.image,
       });
+
+
+      const docRefnot = await addDoc(collection(db, "notifications"), {
+        postId: comment.commentId,
+        postTitle:comment.commentTitle,
+        userId: user.id,
+        userImage: userInfo.image,
+         username: userInfo.name,
+         userEmail: userInfo.email,
+             timestamp: new Date().toLocaleString(),
+             type:'like',
+             is:true,
+             seen:false,
+             dest:comment.userEmail,
+});
+
+
     } catch (err) {
       console.log(err);
     }
@@ -45,6 +62,9 @@ const Comments = ({ comment }) => {
       (like) => like.postId === comment.commentId && like.userId === user.id
     ).likeId;
     await deleteDoc(doc(db, "likes", like));
+    const note=notes.find((note)=>note.dest===comment.userEmail && note.type==='like' && note.postId===comment.commentId && note.userId===user.id).id
+    await deleteDoc(doc(db, "notifications", note));
+
   };
 
   useEffect(() => {
