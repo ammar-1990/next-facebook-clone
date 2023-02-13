@@ -322,7 +322,7 @@ return <p>Loading...</p>
 else
   return (
       
-    <div>
+    <div >
   
         <Header />
         {edit&&<EditProfile setEdit={setEdit} />}
@@ -366,8 +366,8 @@ else
         <div className="bg-gray-100 mt-1  px-2 pb-2">
          
           <div className="w-full lg:w-8/12 pt-3  m-auto flex gap-3 flex-col md:flex-row">
-<div  className=" rounded-lg theLeft ">
-  <div className="bg-white shadow-md  rounded-lg p-3 ">
+<div  className=" rounded-lg theLeft  self-start ">
+  <div className="bg-white shadow-md   rounded-lg p-3 ">
     <h2 className="font-bold text-xl"> Intro</h2>
     <div className="pt-3 flex flex-col gap-5">
       <div className="flex gap-2 items-center ">

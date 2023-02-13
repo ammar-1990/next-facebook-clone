@@ -19,7 +19,7 @@ const userInfo=useSelector(state=>state.user.userInfo)
 
         <h2 className="font-bold text-2xl p-2">Notifications</h2>
 
-        {notes.length>0 &&[...notes].filter((el)=>el.dest===userInfo.email).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).map((el)=><div key={el.postId} className="flex items-center gap-3 p-1 rounded-md hover:bg-gray-200 mb-2 cursor-pointer">
+        {notes.length>0 &&[...notes].filter((el)=>el.dest===userInfo.email).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).map((el)=><div key={el.id} className="flex items-center gap-3 p-1 rounded-md hover:bg-gray-200 mb-2 cursor-pointer">
 <img src={el.userImage} className='h-12 w-12 rounded-full' alt="" />
 <div className="flex flex-col text-sm">
     <div>

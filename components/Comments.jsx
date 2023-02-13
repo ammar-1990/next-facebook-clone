@@ -49,6 +49,7 @@ const notes = useSelector(state=>state.data.notes)
              is:true,
              seen:false,
              dest:comment.userEmail,
+             commentTitle:comment.commentTitle
 });
 
 

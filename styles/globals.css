@@ -14,6 +14,10 @@
     @apply p-1 border-0 outline-none border-b border-blue-600 w-full 
   }
 
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
   .fully {
     border-radius: 50%;
   }
@@ -85,9 +89,11 @@ display: none;
 .sc {
   height: 450px;
 }
- .sc::-webkit-scrollbar{
+ .sc::-webkit-scrollbar {
   display: none;
- }
+    }
+
+ 
 
  .light {
   border:1px solid ;
@@ -148,4 +154,6 @@ display: none;
   background-color: gray;
   border-radius: 50px;
 }
+
+
 }

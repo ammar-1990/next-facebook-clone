@@ -16,7 +16,7 @@ import { LOGOUT, RESETUSER } from "@/features/user/userSlice";
 import Notifications from "./Notifications";
 import { useEffect, useState } from "react";
 import { GETNOTES } from "@/features/data/dataSlice";
-import { doc, onSnapshot,collection } from "firebase/firestore";
+import { doc, onSnapshot,collection,updateDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 
 const Header = () => {
@@ -45,7 +45,18 @@ useEffect(()=>{
 
  const handleClick= async ()=> {
   setOpen(prev=>!prev)
-  
+  const myList =notes.filter(el=>el.dest===userInfo.email)
+  myList.forEach(el=>{
+    const washingtonRef = doc(db, "notifications", el.id);
+
+// Set the "capital" field of the city 'DC'
+const doIt =async()=>{
+  await updateDoc(washingtonRef, {
+    seen: true
+  });
+} 
+doIt()
+  })
 
  }
   return (
@@ -80,7 +91,7 @@ useEffect(()=>{
        
         <ViewGridIcon className="icon" />
         <ChatIcon className="icon" />
-        <div className="relative"><BellIcon className="icon" onClick={handleClick} />
+        <div className="relative"><BellIcon style={{display:'block'}} className="icon" onClick={handleClick} />
     {notes.filter((el)=>el.dest===userInfo.email).filter((el)=>el.seen===false).length > 0 && <span style={{top:'-3px',right:'-3px'}} className="absolute  h-5 w-5 rounded-full bg-red-500 text-white flex items-center justify-center text-xs">{notes.filter((el)=>el.dest===userInfo.email).filter((el)=>el.seen===false).length}</span>}
         </div>
          <img

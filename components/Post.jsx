@@ -61,6 +61,7 @@ const Post = ({ el,profile }) => {
                type:'comment',
                seen:false,
                dest:el.userEmail,
+               commentTitle: titleRef.current.value,
 });
       } catch (err) {
         console.log(err);
@@ -93,7 +94,7 @@ const Post = ({ el,profile }) => {
              dest:el.userEmail,
 });
       
-    } catch (err) {
+   console.log(notes) } catch (err) {
       console.log(err);
     }
   };
@@ -103,6 +104,7 @@ const Post = ({ el,profile }) => {
     await deleteDoc(doc(db, "likes", like));
     const note=notes.find((note)=>note.dest===el.userEmail && note.type==='like' && note.postId===el.id && note.userId===user.id).id
     await deleteDoc(doc(db, "notifications", note));
+    console.log(notes)
   }
 
   useEffect(() => {

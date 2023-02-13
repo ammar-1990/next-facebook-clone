@@ -1,10 +1,12 @@
 import { useState } from "react"
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from '../firebase';
+import { useSelector } from "react-redux";
 
 const Control = ({editRef,setEdit,el,setEditI,type}) => {
 
     const [open ,setOpen]=useState(false)
+    const notes=useSelector(state=>state.data.notes)
 
 
     const handleEdit =()=> {
@@ -22,6 +24,26 @@ setTimeout(()=>{editRef.current.focus();
     const handleDelete=async()=> {
         setOpen(false)
         await deleteDoc(doc(db, type,type==='posts'? el.id : el.commentId));
+        if(type==='posts'){
+          const  myList=notes.filter(note=>note.postId===el.id)
+          myList.forEach(async(ele)=>{
+            await deleteDoc(doc(db, "notifications", ele.id));
+  
+          })
+
+        }
+          else
+          {
+            const  myList=notes.filter(note=>note.commentTitle===el.commentTitle)
+
+            myList.forEach(async(ele)=>{
+              console.log(notes,myList)
+              await deleteDoc(doc(db, "notifications", ele.id));
+    
+            })
+          }
+     
+
     }
   return (
     <div className="relative cursor-pointer ml-auto z-10">
