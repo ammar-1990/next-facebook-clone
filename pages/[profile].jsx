@@ -35,7 +35,7 @@ import EditProfile from "@/components/EditProfile"
 
 
 
-const profile = () => {
+const Profile = () => {
   const [active,setActive]=useState('posts')
   const cBar =[{name:'posts'},{name:'about'},{name:'friends'},{name:'photos',hide:'hidden md:block'},{name:'videos',hide:'hidden md:block'},{name:'check-ins',hide:'hidden md:block'},{name:'more'}]
 const userInfo=useSelector(state=>state.user.userInfo)
@@ -443,4 +443,4 @@ else
   )
 }
 
-export default profile
+export default Profile

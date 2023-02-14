@@ -27,7 +27,7 @@ const userInfo=useSelector(state=>state.user.userInfo)
 <span >  {`${el.type ==='comment'? 'commented on your post. ': (`liked your ${el.is? 'comment.' : 'post.'}`) }`}</span>
 
 </div>
-<span className="text-gray-500 text-xs">"{el.postTitle?.length <50 ?el.postTitle : el.postTitle?.slice(0,49) + '...' }"</span>
+<span className="text-gray-500 text-xs">&#34;{el.postTitle?.length <50 ?el.postTitle : el.postTitle?.slice(0,49) + '...' } &#34;</span>
 
 <span className="text-xs text-gray-500">{el.timestamp}</span>
 </div> 
