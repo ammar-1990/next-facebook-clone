@@ -9,6 +9,7 @@ import InputContent from "@/components/InputContent"
 import { HomeIcon } from "@heroicons/react/solid"
 import { HeartIcon } from "@heroicons/react/solid"
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import Head from 'next/head'
 
 
 
@@ -323,7 +324,9 @@ else
   return (
       
     <div >
-  
+   <Head>
+        <title>{userInfo.name}</title>
+      </Head>
         <Header />
         {edit&&<EditProfile setEdit={setEdit} />}
      <div className="pt-14 flex justify-center shadow-md  ">
