@@ -60,7 +60,7 @@ doIt()
 
  }
   return (
-    <header className="fixed w-screen bg-white top-0 flex items-center justify-between p-1 shadow-md z-10">
+    <header className="fixed w-screen bg-white top-0 flex items-center justify-between p-1 shadow-md z-20">
       <section className="flex items-center"><Link href={'/'}>  <Image
           src={
             "https://1000logos.net/wp-content/uploads/2021/04/Facebook-logo.png"

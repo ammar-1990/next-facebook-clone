@@ -144,6 +144,7 @@ display: none;
   max-height: 500px;
   overflow-y: scroll;
   top:105%;
+ 
 }
 
 .notes::-webkit-scrollbar{
