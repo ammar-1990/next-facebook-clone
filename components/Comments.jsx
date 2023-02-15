@@ -149,7 +149,7 @@ if(editI)
 
           <span className="text-gray-500 text-xs">
             {" "}
-            {new Date(comment.timestamp).toDateString()}
+            {comment.timestamp}
           </span>
         </div>
       </div>
