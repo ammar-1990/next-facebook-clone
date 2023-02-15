@@ -14,7 +14,7 @@ const userInfo=useSelector(state=>state.user.userInfo)
 
 
   return (
-    <div className="p-2 bg-white shadow-md rounded-md absolute  right-5 notes">
+    <div className="p-2 bg-white shadow-md rounded-md absolute  right-1 notes z-50">
 
 
         <h2 className="font-bold text-2xl p-2">Notifications</h2>

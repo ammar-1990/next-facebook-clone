@@ -345,8 +345,8 @@ else
             </p>
 
             {userInfo.email===getUser().email &&<div className="flex gap-3 md:self-end">
-              <button className="outline-none  flex items-center self-end bg-blue-600 gap-2 text-md text-white px-5 py-2 rounded-md"><span className="bg-white w-5 h-5 pb-1 rounded-full flex justify-center items-center text-2xl text-blue-600 ">+</span> Add to story</button>
-              <button onClick={()=>setEdit(true)} className="outline-none px-5 py-2 self-end bg-gray-100 rounded-md text-md flex items-center gap-1 "><PencilIcon className="text-black w-6 h-6" /> Edit profile</button>
+              <button className="outline-none  flex items-center self-end bg-blue-600 gap-2 text-xs md:text-md text-white px-5 py-2 rounded-md"><span className="bg-white w-5 h-5 pb-1 rounded-full flex justify-center items-center text-2xl text-blue-600 ">+</span> Add to story</button>
+              <button onClick={()=>setEdit(true)} className="outline-none px-5 py-2 self-end bg-gray-100 rounded-md text-xs md:text-md flex items-center gap-1 "><PencilIcon className="text-black w-6 h-6" /> Edit profile</button>
             </div>}
             </div>
         <div style={{width:'95%'}} className="py-1 m-auto flex theInput border-gray-300 items-center justify-between"> 

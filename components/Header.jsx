@@ -81,30 +81,34 @@ doIt()
       </section>
       <section className="flex flex-grow justify-evenly  sm:justify-center space-x-0 sm:space-x-5 md:space-x-6  ">
         <HeaderIcon theActive={true} Icon={HomeIcon} />
-        <HeaderIcon Icon={FlagIcon} />
-        <HeaderIcon Icon={PlayIcon} />
-        <HeaderIcon Icon={ShoppingCartIcon} />
+        <HeaderIcon hide={true} Icon={FlagIcon} />
+        <HeaderIcon hide={true} Icon={PlayIcon} />
+        <HeaderIcon hide={true} Icon={ShoppingCartIcon} />
         <HeaderIcon Icon={UserGroupIcon} />
       </section>
       <section className="flex px-3 items-center space-x-2">
        
-       
+       <span onClick={() => {
+            dispatch(LOGOUT());
+            dispatch(RESETUSER());
+          }}><svg xmlns="http://www.w3.org/2000/svg" className="icon flex text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+  <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+</svg></span>
         <ViewGridIcon className="icon" />
         <ChatIcon className="icon" />
-        <div className="relative"><BellIcon style={{display:'block'}} className="icon" onClick={handleClick} />
+        <div className="relative"><BellIcon style={{display:'block'}} className={`icon ${open? 'text-blue-500':'text-gray-600'}`} onClick={handleClick} />
     {notes.filter((el)=>el.dest===userInfo.email).filter((el)=>el.seen===false).length > 0 && <span style={{top:'-3px',right:'-3px'}} className="absolute  h-5 w-5 rounded-full bg-red-500 text-white flex items-center justify-center text-xs">{notes.filter((el)=>el.dest===userInfo.email).filter((el)=>el.seen===false).length}</span>}
         </div>
+        <Link href={`/${userInfo.email}`}>
          <img
           className="rounded-full w-10 h-10 cursor-pointer"
           src={userInfo?.image}
         
-          onClick={() => {
-            dispatch(LOGOUT());
-            dispatch(RESETUSER());
-          }}
-
+          
+          
           
         />
+        </Link>
        
       </section>
 

@@ -6,7 +6,7 @@ import { CalendarIcon,ClockIcon,DesktopComputerIcon,UserIcon } from "@heroicons/
 const Aside = () => {
   const userInfo=useSelector(state=>state.user.userInfo)
   return (
-    <aside className=" px-1 sm:px-4 py-2 w-max lg:w-1/4 flex flex-col items-center sm:items-start ">
+    <aside className=" px-1 sm:px-4 py-2 w-max lg:w-1/4 hidden sm:flex flex-col items-center  ">
 <AsideRow profile={userInfo.image} title={{name:userInfo.name,last:userInfo.lastname}} email={userInfo.email}/>
 <AsideRow Icon={UserIcon}   title='friends'/>
 <AsideRow Icon={UserGroupIcon}   title='groups'/>
